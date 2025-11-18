@@ -1,6 +1,7 @@
 -- Sans monster script.
 comments = {"heya.", "what's up?", "you look busy."}
-commands = {"Check", "Joke", "Taunt"}
+-- "Check" is removed from this list because `cancheck = true` adds it automatically.
+commands = {"Joke", "Taunt"}
 randomdialogue = {"it's a beautiful day outside.", "birds are singing,\nflowers are blooming...", "on days like these,\nkids like you...", "should be burning in hell."}
 
 sprite = "sans"
@@ -27,11 +28,10 @@ end
 -- This handles the commands; all-caps versions of the commands list you have above.
 function HandleCustomCommand(command)
     if command == "JOKE" then
-        currentdialogue = {"* what do you call a skeleton\nwith no friends?", "* lonely."}
+        -- Use BattleDialog to show the text immediately.
+        BattleDialog({"* what do you call a skeleton\nwith no friends?", "* ...", "* lonely."})
     elseif command == "TAUNT" then
-        currentdialogue = {"* you're just a kid.\n* what do you know about\n  the world?"}
-    else
-        -- For "CHECK" or any other command
-        currentdialogue = {"* just keep checkin' me.\n* see what happens."}
+        -- Use BattleDialog to show the text immediately.
+        BattleDialog({"* you're just a kid.\n* what do you know about\n  the world?"})
     end
 end

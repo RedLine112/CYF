@@ -1,8 +1,10 @@
 -- Sans encounter script.
 
 encountertext = "* the air is crackling with...\n* bone-rattling energy."
-nextwaves = {"bones_horizontal"}
-wavetimer = 4.0
+-- The first wave is set here. Subsequent waves are chosen in EnemyDialogueEnding.
+nextwaves = {"wave_bone_platforms"}
+-- Increased timer to allow for longer, more complex waves.
+wavetimer = 8.0
 arenasize = {160, 135}
 
 enemies = {
@@ -13,8 +15,8 @@ enemypositions = {
 {0, 40}
 }
 
--- A list of possible attacks for Sans.
-possible_attacks = {"bones_horizontal", "bones_vertical"}
+-- Updated list with the new, more challenging attacks.
+possible_attacks = {"wave_bone_platforms", "wave_bone_barrage"}
 
 function EncounterStarting()
     -- You can set up things here that should happen at the very beginning of the encounter.
