@@ -37,13 +37,16 @@ function Update()
     end
 
     -- Update the position of all bones.
-    for i=0, #bullets-1 do
-        local bullet = bullets[i]
-        if bullet.GetVar('xspeed') ~= nil then
-            bullet.Move(bullet.GetVar('xspeed'), bullet.GetVar('yspeed'))
-            -- Remove bones that are far off-screen.
-            if bullet.x < -30 or bullet.x > Arena.width + 30 or bullet.y < -30 or bullet.y > Arena.height + 30 then
-                bullet.Remove()
+    -- This check prevents the "attempt to get length of a nil value" error.
+    if bullets then
+        for i=0, #bullets-1 do
+            local bullet = bullets[i]
+            if bullet.GetVar('xspeed') ~= nil then
+                bullet.Move(bullet.GetVar('xspeed'), bullet.GetVar('yspeed'))
+                -- Remove bones that are far off-screen.
+                if bullet.x < -30 or bullet.x > Arena.width + 30 or bullet.y < -30 or bullet.y > Arena.height + 30 then
+                    bullet.Remove()
+                end
             end
         end
     end
