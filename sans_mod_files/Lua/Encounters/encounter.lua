@@ -2,8 +2,8 @@
 
 encountertext = "* the air is crackling with...\n* bone-rattling energy."
 -- The first wave is set here. Subsequent waves are chosen in EnemyDialogueEnding.
-nextwaves = {"wave_bone_platforms"}
--- Increased timer to allow for longer, more complex waves.
+nextwaves = {"wave_wall_sweep"}
+-- Timer is still good for these longer waves.
 wavetimer = 8.0
 arenasize = {160, 135}
 
@@ -15,8 +15,8 @@ enemypositions = {
 {0, 40}
 }
 
--- Updated list with the new, more challenging attacks.
-possible_attacks = {"wave_bone_platforms", "wave_bone_barrage"}
+-- Updated list with the new, more meaningful attacks.
+possible_attacks = {"wave_wall_sweep", "wave_bone_spiral"}
 
 function EncounterStarting()
     -- You can set up things here that should happen at the very beginning of the encounter.
