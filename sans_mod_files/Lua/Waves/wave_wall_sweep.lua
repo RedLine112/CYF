@@ -1,68 +1,61 @@
--- A wave of sweeping bone walls with a gap to dodge through.
+-- A wave of sweeping bone walls, corrected for center-based coordinates.
 
 timer = 0
 state = 0 -- 0 for left-to-right, 1 for right-to-left.
-wall_speed = 2
-wall_x = -10
-gap_y = Arena.height / 2
+wall_speed = 3 -- The horizontal speed of the wall.
 
 function Update()
     timer = timer + 1
 
-    -- Part 1: Wall sweeping from left to right.
-    if state == 0 then
-        wall_x = wall_x + wall_speed
-        -- When the wall is fully on screen, create the projectiles.
-        if timer == 1 then
-            gap_y = math.random(20, Arena.height - 20)
-            -- Create bones above and below the gap.
-            for y = 0, Arena.height, 10 do
-                if y < gap_y - 20 or y > gap_y + 20 then
-                    local bone = CreateProjectile('bone', wall_x, y)
-                    bone.SetVar('is_wall', true) -- Mark as part of the wall.
-                end
-            end
-        end
-        -- Once the wall moves off-screen, reset for the next part.
-        if wall_x > Arena.width + 10 then
-            state = 1
-            timer = 0
-            wall_x = Arena.width + 10
-            -- Remove the old wall projectiles.
-            if bullets then
-                for i = #bullets - 1, 0, -1 do
-                    bullets[i].Remove()
-                end
-            end
-        end
+    -- Create the wall once at the beginning of each state.
+    if timer == 1 then
+        -- Define vertical bounds of the arena.
+        local top_y = -Arena.height / 2
+        local bottom_y = Arena.height / 2
 
-    -- Part 2: Wall sweeping from right to left.
-    elseif state == 1 then
-        wall_x = wall_x - wall_speed
-        if timer == 1 then
-            gap_y = math.random(20, Arena.height - 20)
-            for y = 0, Arena.height, 10 do
-                if y < gap_y - 20 or y > gap_y + 20 then
-                    local bone = CreateProjectile('bone', wall_x, y)
-                    bone.SetVar('is_wall', true)
+        -- Create a random gap for the player to pass through.
+        local gap_center = math.random(top_y + 20, bottom_y - 20)
+        local gap_size = 20
+
+        -- Part 1: Wall sweeping from left to right.
+        if state == 0 then
+            local start_x = -Arena.width / 2 - 10
+            -- Create a vertical line of bones.
+            for y = top_y, bottom_y, 10 do
+                -- Skip creating bones in the gap.
+                if y < gap_center - gap_size or y > gap_center + gap_size then
+                    local bone = CreateProjectile('bone', start_x, y)
+                    bone.SetVar('xspeed', wall_speed) -- Give it a rightward velocity.
                 end
             end
-        end
-        if wall_x < -10 then
-            EndWave()
+
+        -- Part 2: Wall sweeping from right to left.
+        elseif state == 1 then
+            local start_x = Arena.width / 2 + 10
+            for y = top_y, bottom_y, 10 do
+                if y < gap_center - gap_size or y > gap_center + gap_size then
+                    local bone = CreateProjectile('bone', start_x, y)
+                    bone.SetVar('xspeed', -wall_speed) -- Give it a leftward velocity.
+                end
+            end
         end
     end
 
-    -- Update the position of all wall projectiles.
+    -- Update the position of all active bones.
     if bullets then
         for i=0, #bullets-1 do
-            if bullets[i].GetVar('is_wall') then
-                if state == 0 then
-                    bullets[i].MoveTo(wall_x, bullets[i].y)
-                else
-                    bullets[i].MoveTo(wall_x, bullets[i].y)
-                end
+            local bullet = bullets[i]
+            if bullet.GetVar('xspeed') then
+                bullet.Move(bullet.GetVar('xspeed'), 0)
             end
         end
+    end
+
+    -- State transition and wave ending logic.
+    if state == 0 and timer > 150 then -- After enough time for the first wall to pass...
+        state = 1
+        timer = 0 -- Reset timer for the next state.
+    elseif state == 1 and timer > 150 then -- After the second wall passes...
+        EndWave()
     end
 end
