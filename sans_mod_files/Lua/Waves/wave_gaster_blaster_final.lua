@@ -26,7 +26,7 @@ function Update()
             for i = 1, 3 do
                 local blaster = CreateProjectile('gaster_blaster', (i-2) * 80, Arena.height/2 + 30)
                 blaster.SetVar('type', 'blaster')
-                blaster.rotation = 180 -- Pointing upwards
+                blaster.sprite.rotation = 180 -- Pointing upwards
                 table.insert(blasters, blaster)
             end
         end
@@ -62,14 +62,14 @@ function Update()
             for i = 1, 2 do
                 local blaster = CreateProjectile('gaster_blaster', -Arena.width/2 - 30, (i-1.5) * 80)
                 blaster.SetVar('type', 'blaster')
-                blaster.rotation = -90 -- Pointing right
+                blaster.sprite.rotation = -90 -- Pointing right
                 table.insert(blasters, blaster)
             end
             -- Right blasters
             for i = 1, 2 do
                 local blaster = CreateProjectile('gaster_blaster', Arena.width/2 + 30, (i-1.5) * 80)
                 blaster.SetVar('type', 'blaster')
-                blaster.rotation = 90 -- Pointing left
+                blaster.sprite.rotation = 90 -- Pointing left
                 table.insert(blasters, blaster)
             end
         end
