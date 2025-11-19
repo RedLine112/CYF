@@ -1,0 +1,2 @@
+Your custom music file (in .ogg format) goes here.
+Make sure to uncomment the 'music = "your_music_file_name"' line in encounter.lua.
