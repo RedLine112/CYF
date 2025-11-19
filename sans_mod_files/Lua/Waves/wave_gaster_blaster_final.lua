@@ -20,6 +20,7 @@ function Update()
             for i = 1, 3 do
                 local blaster = CreateProjectile('gaster_blaster', (i-2) * 80, -Arena.height/2 - 30)
                 blaster.SetVar('type', 'blaster')
+                blaster.sprite.Scale(0.5, 0.5) -- Scale down the blaster sprite.
                 table.insert(blasters, blaster)
             end
             -- Bottom blasters
@@ -27,6 +28,7 @@ function Update()
                 local blaster = CreateProjectile('gaster_blaster', (i-2) * 80, Arena.height/2 + 30)
                 blaster.SetVar('type', 'blaster')
                 blaster.sprite.rotation = 180 -- Pointing upwards
+                blaster.sprite.Scale(0.5, 0.5) -- Scale down the blaster sprite.
                 table.insert(blasters, blaster)
             end
         end
@@ -39,10 +41,10 @@ function Update()
     elseif state == 1 then
         if timer == 1 then
             for _, blaster in ipairs(blasters) do
-                local beam_y_pos = blaster.y < 0 and blaster.y + 40 or blaster.y - 40
+                local beam_y_pos = blaster.y < 0 and blaster.y + 20 or blaster.y - 20
                 local beam = CreateProjectile('beam', blaster.x, beam_y_pos)
                 beam.SetVar('type', 'beam')
-                beam.sprite.Scale(1, 20) -- Stretch the beam across the arena
+                beam.sprite.Scale(0.8, 10) -- Resized vertical beam.
             end
         end
         if timer > 30 then -- Beam lasts for 0.5 seconds
@@ -63,6 +65,7 @@ function Update()
                 local blaster = CreateProjectile('gaster_blaster', -Arena.width/2 - 30, (i-1.5) * 80)
                 blaster.SetVar('type', 'blaster')
                 blaster.sprite.rotation = -90 -- Pointing right
+                blaster.sprite.Scale(0.5, 0.5) -- Scale down the blaster sprite.
                 table.insert(blasters, blaster)
             end
             -- Right blasters
@@ -70,6 +73,7 @@ function Update()
                 local blaster = CreateProjectile('gaster_blaster', Arena.width/2 + 30, (i-1.5) * 80)
                 blaster.SetVar('type', 'blaster')
                 blaster.sprite.rotation = 90 -- Pointing left
+                blaster.sprite.Scale(0.5, 0.5) -- Scale down the blaster sprite.
                 table.insert(blasters, blaster)
             end
         end
@@ -82,10 +86,10 @@ function Update()
     elseif state == 3 then
         if timer == 1 then
             for _, blaster in ipairs(blasters) do
-                local beam_x_pos = blaster.x < 0 and blaster.x + 40 or blaster.x - 40
+                local beam_x_pos = blaster.x < 0 and blaster.x + 20 or blaster.x - 20
                 local beam = CreateProjectile('beam', beam_x_pos, blaster.y)
                 beam.SetVar('type', 'beam')
-                beam.sprite.Scale(20, 1) -- Stretch the beam
+                beam.sprite.Scale(10, 0.8) -- Resized horizontal beam.
             end
         end
         if timer > 30 then
